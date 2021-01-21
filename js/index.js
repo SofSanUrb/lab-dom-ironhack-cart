@@ -6,7 +6,7 @@ function updateSubtotal(product) {
   
   // extracting values from DOM element
   let priceNum = price.innerText;
-  let quantityNum = quantity.value;
+  let quantityNum = Number(quantity.value);
 
   //Calculate subtotal price
   let subtotal = priceNum * quantityNum;
@@ -61,30 +61,37 @@ function removeProduct(event) {
 
 // ITERATION 5
 
-function createProduct() {
-  let newProduct = document.querySelector("tfoot")
+function createProduct() { 
   //newProduct.addEventListener('click', removeProduct)
-  
-  let newInput = document.querySelectorAll('.create-product input')
-  
-  let newTr = document.createElement("tr")
-  let newTdNAme = document.createElement("td")
-  let newTdPrice = document.createElement("td")
-  let newTdQuantity = document.createElement("td")
-  let newInputQuantity = document.createElement("input")
-  let newTdSubTotal = document.createElement("td")
-  let newTdAction = document.createElement("td")
-  let newBtnRemove = document.createElement("button")
+  let productNameDOM = document.querySelector('.create-product input[type="text"]')
+  let quantityDOM = document.querySelector('.create-product input[type="number"]')
 
-  newtr.appendChild(newTdNAme)
-  newtr.appendChild(newTdPrice)
-  newtr.appendChild(newTdQuantity)
-  newTdAction.appendChild(newInputQuantity)
-  newtr.appendChild(newTdSubTotal)
-  newtr.appendChild(newTdAction)
-  newTdAction.appendChild(newBtnRemove)
+  //Create variable tbody
+  let tbodyDOM = document.querySelector('tbody')
 
-  console.log(newtr)
+  //Create Tr DOM
+  let trDOM = document.createElement('tr')
+  trDOM.classList.add('product')
+
+  //Insert innerHTML between `` !!
+  trDOM.innerHTML = `
+  <td class="name">
+            <span>${productNameDOM.value}</span>
+          </td>
+          <td class="price">$<span>${quantityDOM.value}</span></td>
+          <td class="quantity">
+            <input type="number" value="0" min="0" placeholder="Quantity" />
+          </td>
+          <td class="subtotal">$<span>0</span></td>
+          <td class="action">
+            <button class="btn btn-remove">Remove</button>
+          </td>
+  `
+  let removeBtn = trDOM.querySelector('.btn-remove')
+  removeBtn.addEventListener('click', removeProduct)
+
+  // append it to our tbody
+  tbodyDOM.appendChild(trDOM)
 }
 
 window.addEventListener('load', () => {
